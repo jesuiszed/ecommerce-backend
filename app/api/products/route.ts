@@ -1,0 +1,14 @@
+import { prisma } from "@/lib/prisma";
+
+export async function GET() {
+  const products = await prisma.product.findMany({
+    where: { status: "ACTIVE" },
+    include: {
+      category: true,
+      variants: true
+    },
+    orderBy: { createdAt: "desc" }
+  });
+
+  return Response.json(products);
+}
